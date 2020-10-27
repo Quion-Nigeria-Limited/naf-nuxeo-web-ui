@@ -7,26 +7,42 @@ export default class CreateDialog extends BasePage {
     return new DocumentCreate('nuxeo-document-create');
   }
 
+  get documentImport() {
+    const csvImport = this.el.element('nuxeo-document-import-csv');
+    if (csvImport.isVisible()) {
+      return csvImport;
+    }
+    return this.el.element('nuxeo-document-import');
+  }
+
   importTab(name) {
     return this.el.element(`paper-tab[name="${name}"]`);
   }
 
-  get importCsvDialog() {
-    return this.el.element('#csvCreation');
+  documentImportDialog(field) {
+    return this.el.element(`#${field}`);
   }
 
   setFileToImport(file) {
-    const field = this.importCsvDialog.element('#dropzone #uploadFiles');
+    const field = this.documentImport.element('#dropzone #uploadFiles');
     field.waitForExist();
     return field.chooseFile(path.resolve(fixtures.blobs.get(file)));
   }
 
-  get importCsvButton() {
-    return this.importCsvDialog.element('div[name="upload"] paper-button.primary');
+  get importButton() {
+    return this.el.element('div[name="upload"] paper-button[id="create"]');
+  }
+
+  get importCSVButton() {
+    return this.el.element('div[name="upload"] paper-button.primary');
+  }
+
+  get selectedCSVToImport() {
+    return this.el.element('#dropzone div.complete');
   }
 
   get selectedFileToImport() {
-    return this.el.element('#dropzone div.complete');
+    return this.el.element('div.file-to-import');
   }
 
   get importCloseButton() {

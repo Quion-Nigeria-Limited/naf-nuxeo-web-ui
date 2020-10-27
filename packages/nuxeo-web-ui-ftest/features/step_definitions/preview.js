@@ -22,6 +22,14 @@ Then(/^I can see the inline ([-\w]+) previewer$/, function(viewerType) {
   preview.element(viewerType).waitForVisible();
 });
 
+Then(/^I can see the (.+) document inline (.+) previewer$/, function(docType, viewerType) {
+  const page = this.ui.browser.documentPage(docType);
+  page.view.waitForVisible();
+  const { preview } = page.view;
+  preview.waitForVisible();
+  preview.element(viewerType).waitForVisible();
+});
+
 Then(/^I can see a ([-\w]+) previewer$/, (viewerType) => {
   driver.waitForVisible(`#dialog ${viewerType}`);
 });
