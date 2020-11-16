@@ -1,7 +1,7 @@
 import { Then } from 'cucumber';
 
-Then('I can see the video conversions panel', function() {
-  const page = this.ui.browser.documentPage(this.doc.type);
+Then(/^I can see the (.+) conversions panel$/, function(docType) {
+  const page = this.ui.browser.documentPage(docType);
   page.waitForVisible();
   page.el.element('nuxeo-video-conversions').waitForVisible().should.be.true;
 });

@@ -30,7 +30,14 @@ Then(/^I add the (.+) to the import field$/, function(file) {
   const dialog = this.ui.createDialog;
   dialog.waitForVisible();
   dialog.setFileToImport(file);
-  dialog.selectedFileToImport.waitForVisible().should.be.true;
+  dialog.selectedFileToImport.waitForVisible();
+});
+
+Then('I add the following documents to the import field:', function(table) {
+  const dialog = this.ui.createDialog;
+  dialog.waitForVisible();
+  const docs = table.rows().map((row) => dialog.setFileToImport(row[0]));
+  return docs.reduce((current, next) => current.then(next), Promise.resolve([]));
 });
 
 When('I select {word} from the Document Type menu', function(docType) {
